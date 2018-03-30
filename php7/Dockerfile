@@ -1,11 +1,11 @@
-FROM php:7-apache
+FROM php:7.2.3-apache
 
-RUN apt-get update \
-    && apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng12-dev libmcrypt-dev vim-athena
-RUN docker-php-ext-install pdo_mysql mysqli mbstring gd iconv mcrypt
+RUN apt-get update && \
+    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev vim-athena
+RUN docker-php-ext-install pdo_mysql mysqli mbstring gd iconv
 
-RUN pecl install xdebug
-RUN docker-php-ext-enable xdebug
+RUN pecl install mcrypt-1.0.1 xdebug
+RUN docker-php-ext-enable mcrypt xdebug
 
 RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
