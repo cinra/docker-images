@@ -1,11 +1,11 @@
 FROM php:7.2.3-apache
 
 RUN apt-get update && \
-    apt-get install -y libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev vim-athena
+    apt-get install -y wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev vim-athena
 RUN docker-php-ext-install pdo_mysql mysqli mbstring gd iconv
 
-RUN pecl install mcrypt-1.0.1 xdebug
-RUN docker-php-ext-enable mcrypt xdebug
+RUN pecl install mcrypt-1.0.1 xdebug && \
+    docker-php-ext-enable mcrypt xdebug
 
 RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
     && echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini \
@@ -19,3 +19,11 @@ RUN apt-get install -y ssl-cert \
   --no-install-recommends && rm -r /var/lib/apt/lists/*
 
 COPY php.ini /usr/local/etc/php/
+
+RUN curl -sS https://getcomposer.org/installer | php && \
+    mv composer.phar /usr/local/bin/composer
+
+RUN wget https://phar.phpunit.de/phpunit-6.5.phar && \
+    chmod +x phpunit-6.5.phar && \
+    mv phpunit-6.5.phar /usr/local/bin/phpunit && \
+    phpunit --version
