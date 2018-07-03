@@ -2,6 +2,7 @@ FROM php:7.2.3-apache
 
 RUN apt-get update && \
     apt-get install -y wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev vim-athena
+RUN docker-php-ext-configure gd --with-freetype-dir=/usr/include/ --with-jpeg-dir=/usr/include/
 RUN docker-php-ext-install pdo_mysql mysqli mbstring gd iconv
 
 RUN pecl install mcrypt-1.0.1 xdebug && \
