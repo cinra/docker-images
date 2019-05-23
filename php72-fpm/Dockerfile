@@ -1,4 +1,4 @@
-FROM php:7.3-fpm
+FROM php:7.2-fpm
 
 RUN apt-get update && \
     apt-get install -y wget libfreetype6-dev libjpeg62-turbo-dev libpng-dev libmcrypt-dev vim-athena gnupg imagemagick libmagickwand-dev build-essential libc6-dev g++ supervisor procps
@@ -9,7 +9,7 @@ RUN apt install -y apache2
 RUN a2enmod rewrite
 
 RUN pecl install mcrypt-1.0.1 xdebug imagick && \
-    docker-php-ext-enable xdebug imagick
+    docker-php-ext-enable mcrypt xdebug imagick
 
 RUN echo "xdebug.remote_enable=on" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
     echo "xdebug.remote_autostart=off" >> /usr/local/etc/php/conf.d/docker-php-ext-xdebug.ini && \
